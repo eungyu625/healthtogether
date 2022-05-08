@@ -11,7 +11,7 @@ public class GroupService {
 
     private final GroupRepository groupRepository;
 
-    public void setGroup(Group group) {
+    public void newGroup(Group group) {
 
         groupRepository.save(group);
     }

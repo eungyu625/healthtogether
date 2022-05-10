@@ -5,6 +5,7 @@ import trainproject.healthtogether.domain.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,37 +20,24 @@ public class Group {
     @Column(name = "group_id")
     private Long id;
 
-    @ElementCollection
-    private List<String> target_days;
+    private String groupName;
+
+    private String days;
 
     private String intro;
 
-    private LocalDate startDate;
+    private LocalDateTime startDateTime;
 
-    @OneToOne(mappedBy = "group")
+    @Embedded
     private Attend attend;
 
-    private Double attendanceRate;
-
-    @ElementCollection
-    private Map<User, LocalDate> groupJoinDate = new HashMap<>();
-
-    @OneToMany(mappedBy = "group")
+    @ManyToMany(mappedBy = "group")
     private List<User> users = new ArrayList<>();
 
-    public void setGroup(String intro, List<String> target_days) {
+    public void setGroup(String groupName, String days, String intro) {
+        this.groupName = groupName;
+        this.days = days;
         this.intro = intro;
-        this.target_days.addAll(target_days);
-        this.startDate = LocalDate.now();
-    }
-
-    public void joinGroup(User user) {
-        users.add(user);
-        groupJoinDate.put(user, LocalDate.now());
-    }
-
-    // 전체 출석율 로직
-    public void setAttendanceRate() {
-
+        this.startDateTime = LocalDateTime.now();
     }
 }

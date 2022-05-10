@@ -39,9 +39,9 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinColumn(name = "group_id")
-    private Group group; // Group class와 mapping
+    private List<Group> group = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Record> records = new ArrayList<>();

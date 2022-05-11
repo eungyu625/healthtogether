@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter @Setter
-public class UserGroup {
+public class UserGroup { // User와 ExerciseGroup ManyToMany 관계 설정을 위함
 
     @Id
     @GeneratedValue

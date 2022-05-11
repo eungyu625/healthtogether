@@ -4,21 +4,35 @@ import lombok.Getter;
 import trainproject.healthtogether.domain.user.User;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDateTime;
 
-@Embeddable
+@Entity
 @Getter
 public class Attend {
 
-    private Map<User, Integer> attendance = new HashMap<>();
+    @Id
+    @GeneratedValue
+    private Long id;
 
-    public void attend(User user) {
-        attendance.put(user, attendance.get(user) + 1);
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exerciseGroup_id")
+    private ExerciseGroup exerciseGroup;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    private LocalDateTime joinDateTime;
+
+    private Integer attendDays;
+
+    public void join(User user) {
+        this.user = user;
+        this.joinDateTime = LocalDateTime.now();
+        this.attendDays = 0;
     }
 
-    public Double getAttendRate(User user) {
-        int attends = attendance.get(user);
-        return 0.0;
+    public void attend() {
+        attendDays++;
     }
 }

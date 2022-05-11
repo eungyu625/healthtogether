@@ -5,7 +5,8 @@ import lombok.Getter;
 import org.springframework.transaction.annotation.Transactional;
 import trainproject.healthtogether.BaseTimeEntity;
 import trainproject.healthtogether.domain.exercise.Record;
-import trainproject.healthtogether.domain.group.Group;
+import trainproject.healthtogether.domain.group.Attend;
+import trainproject.healthtogether.domain.manytomany.UserGroup;
 import trainproject.healthtogether.dto.UserForm;
 
 import javax.persistence.*;
@@ -35,13 +36,15 @@ public class User extends BaseTimeEntity {
     @Column
     private String nickName;
 
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany
-    @JoinColumn(name = "group_id")
-    private List<Group> group = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<UserGroup> userGroups = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "attend_id")
+    private Attend attend;
 
     @OneToMany(mappedBy = "user")
     private List<Record> records = new ArrayList<>();

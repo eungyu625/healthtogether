@@ -24,4 +24,7 @@ public class ExerciseGroupService {
         return exerciseGroupRepository.findAll();
     }
 
+    public ExerciseGroup findOne(Long id) {
+        return exerciseGroupRepository.getById(id);
+    }
 }

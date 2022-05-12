@@ -5,6 +5,10 @@ import trainproject.healthtogether.domain.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Entity
 @Getter
@@ -12,27 +16,23 @@ public class Attend {
 
     @Id
     @GeneratedValue
+    @Column(name = "attend_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exerciseGroup_id")
-    private ExerciseGroup exerciseGroup;
+    private LocalDateTime joinDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Integer attendanceDays;
 
-    private LocalDateTime joinDateTime;
-
-    private Integer attendDays;
-
-    public void join(User user) {
-        this.user = user;
-        this.joinDateTime = LocalDateTime.now();
-        this.attendDays = 0;
+    public Attend() {
+        joinDate = LocalDateTime.now();
+        attendanceDays = 0;
     }
 
     public void attend() {
-        attendDays++;
+        attendanceDays++;
+    }
+
+    public Double attendanceRate() {
+        return 0.;
     }
 }

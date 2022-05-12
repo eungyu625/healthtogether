@@ -42,10 +42,6 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<UserGroup> userGroups = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attend_id")
-    private Attend attend;
-
     @OneToMany(mappedBy = "user")
     private List<Record> records = new ArrayList<>();
 

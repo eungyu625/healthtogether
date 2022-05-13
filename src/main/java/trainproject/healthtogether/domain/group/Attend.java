@@ -1,14 +1,10 @@
 package trainproject.healthtogether.domain.group;
 
 import lombok.Getter;
-import trainproject.healthtogether.domain.user.User;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Getter
@@ -19,12 +15,12 @@ public class Attend {
     @Column(name = "attend_id")
     private Long id;
 
-    private LocalDateTime joinDate;
+    private LocalDate joinDate;
 
     private Integer attendanceDays;
 
     public Attend() {
-        joinDate = LocalDateTime.now();
+        joinDate = LocalDate.now();
         attendanceDays = 0;
     }
 
@@ -32,7 +28,8 @@ public class Attend {
         attendanceDays++;
     }
 
-    public Double attendanceRate() {
-        return 0.;
+    public Integer attendanceRate() {
+        long workDays = ChronoUnit.DAYS.between(joinDate, LocalDate.now());
+        return 100 * attendanceDays / (int) workDays;
     }
 }

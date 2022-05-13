@@ -24,6 +24,8 @@ public class ExerciseGroup {
 
     private String intro;
 
+    private int routineTime;
+
     private LocalDateTime localDateTime;
 
     private String targetDay;
@@ -39,10 +41,11 @@ public class ExerciseGroup {
 
     }
 
-    public void setExerciseGroup(String exerciseGroupName, String intro, User chief, String targetDay) {
+    public void setExerciseGroup(String exerciseGroupName, String intro, User chief, String targetDay, int routineTime) {
         this.exerciseGroupName = exerciseGroupName;
         this.intro = intro;
         this.targetDay = targetDay;
+        this.routineTime = routineTime;
         this.localDateTime = LocalDateTime.now();
         this.memberList.put(chief, new Attend());
     }
@@ -53,5 +56,19 @@ public class ExerciseGroup {
 
     public void attend(User user) {
         memberList.get(user).attend();
+    }
+
+    public Integer memberAttendRate(User user) {
+        return memberList.get(user).attendanceRate();
+    }
+
+    public Long groupAttendRate() {
+        long attendRate = 0;
+
+        for (User user : memberList.keySet()) {
+            attendRate += (long) memberList.get(user).attendanceRate();
+        }
+
+        return 100 * attendRate / memberList.size();
     }
 }

@@ -23,7 +23,7 @@ public class ExerciseGroupServiceTest {
     void 그룹생성() {
         ExerciseGroup exerciseGroup = new ExerciseGroup();
         User user = new User("name", "email", "picture", Role.USER);
-        exerciseGroup.setExerciseGroup("group", "hello", user, "friday");
+        exerciseGroup.setExerciseGroup("group", "hello", user, "friday", 1);
         exerciseGroupService.setExerciseGroup(exerciseGroup);
     }
 
@@ -31,7 +31,7 @@ public class ExerciseGroupServiceTest {
     void 그룹가입() {
         ExerciseGroup exerciseGroup = new ExerciseGroup();
         User user = new User("name", "email", "picture", Role.USER);
-        exerciseGroup.setExerciseGroup("group", "hello", user, "friday");
+        exerciseGroup.setExerciseGroup("group", "hello", user, "friday", 1);
         exerciseGroupService.setExerciseGroup(exerciseGroup);
         User user1 = new User("name1", "email1", "picture1", Role.USER);
         ExerciseGroup findGroup = exerciseGroupService.findOne(1L);

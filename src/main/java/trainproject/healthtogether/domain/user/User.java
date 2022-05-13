@@ -5,7 +5,6 @@ import lombok.Getter;
 import org.springframework.transaction.annotation.Transactional;
 import trainproject.healthtogether.BaseTimeEntity;
 import trainproject.healthtogether.domain.exercise.Record;
-import trainproject.healthtogether.domain.group.Attend;
 import trainproject.healthtogether.domain.manytomany.UserGroup;
 import trainproject.healthtogether.dto.UserForm;
 
@@ -35,6 +34,10 @@ public class User extends BaseTimeEntity {
 
     @Column
     private String nickName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "friend_id")
+    private Friend friendList;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -75,4 +78,24 @@ public class User extends BaseTimeEntity {
         return this;
     }
 
+
+    public void addFriends(User user) {
+        friendList.add(user);
+    }
+
+    public void removeFriends(User user) {
+        friendList.remove(user);
+    }
+
+    public User findFriend(User user) {
+        if (friendList.findOne(user) == null) {
+            return null;
+        }
+
+        return user;
+    }
+
+    public List<User> findFriendsAll() {
+        return friendList.findAll();
+    }
 }

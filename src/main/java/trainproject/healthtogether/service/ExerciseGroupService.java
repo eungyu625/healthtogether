@@ -20,6 +20,7 @@ public class ExerciseGroupService {
         exerciseGroupRepository.save(exerciseGroup);
     }
 
+
     public List<ExerciseGroup> findAll() {
         return exerciseGroupRepository.findAll();
     }

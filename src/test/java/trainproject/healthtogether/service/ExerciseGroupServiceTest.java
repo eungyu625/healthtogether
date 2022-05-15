@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import trainproject.healthtogether.domain.group.ExerciseGroup;
 import trainproject.healthtogether.domain.user.Role;
 import trainproject.healthtogether.domain.user.User;
+import trainproject.healthtogether.repository.apirepository.ExerciseGroupApiRepository;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -18,6 +19,9 @@ public class ExerciseGroupServiceTest {
 
     @Autowired
     private ExerciseGroupService exerciseGroupService;
+
+    @Autowired
+    private ExerciseGroupApiRepository exerciseGroupApiRepository;
 
     @Test
     void 그룹생성() {
@@ -40,4 +44,5 @@ public class ExerciseGroupServiceTest {
 
         System.out.println("memberList : " + exerciseGroup.getMemberList());
     }
+
 }

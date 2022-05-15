@@ -5,6 +5,7 @@ import trainproject.healthtogether.domain.manytomany.UserGroup;
 import trainproject.healthtogether.domain.user.User;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class ExerciseGroup {
 
     private int routineTime;
 
-    private LocalDateTime localDateTime;
+    private LocalDate startDate;
 
     private String targetDay;
 
@@ -46,7 +47,7 @@ public class ExerciseGroup {
         this.intro = intro;
         this.targetDay = targetDay;
         this.routineTime = routineTime;
-        this.localDateTime = LocalDateTime.now();
+        this.startDate = LocalDate.now();
         this.memberList.put(chief, new Attend());
     }
 

@@ -6,7 +6,6 @@ import trainproject.healthtogether.domain.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,12 +30,12 @@ public class ExerciseGroup {
 
     private String targetDay;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @MapKeyColumn(name = "user_id")
     private Map<User, Attend> memberList = new ConcurrentHashMap<>();
 
     @OneToMany(mappedBy = "exerciseGroup")
-    private List<UserGroup> userGroups = new ArrayList<>();
+    private List<UserGroup> userGroupList = new ArrayList<>();
 
     public ExerciseGroup() {
 

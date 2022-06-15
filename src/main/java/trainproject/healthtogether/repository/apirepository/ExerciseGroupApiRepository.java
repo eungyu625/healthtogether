@@ -21,4 +21,5 @@ public class ExerciseGroupApiRepository {
                 " from ExerciseGroup eg", ExerciseGroupDto.class)
                 .getResultList();
     }
+
 }

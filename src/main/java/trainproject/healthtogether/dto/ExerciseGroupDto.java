@@ -2,8 +2,10 @@ package trainproject.healthtogether.dto;
 
 import lombok.Getter;
 import trainproject.healthtogether.domain.group.ExerciseGroup;
+import trainproject.healthtogether.domain.user.User;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 public class ExerciseGroupDto {

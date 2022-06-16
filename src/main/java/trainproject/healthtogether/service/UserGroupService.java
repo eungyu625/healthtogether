@@ -7,6 +7,7 @@ import trainproject.healthtogether.domain.manytomany.UserGroup;
 import trainproject.healthtogether.domain.user.User;
 import trainproject.healthtogether.repository.UserGroupRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,10 +25,12 @@ public class UserGroupService {
     }
 
     public List<UserGroup> findUserGroupByExerciseGroup(ExerciseGroup exerciseGroup) {
-        return userGroupRepository.findByExerciseGroup(exerciseGroup);
+
+        return exerciseGroup.getUserGroupList();
     }
 
     public List<UserGroup> findUserGroupByUser(User user) {
-        return userGroupRepository.findByUser(user);
+
+        return user.getUserGroupList();
     }
 }

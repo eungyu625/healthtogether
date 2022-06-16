@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import trainproject.healthtogether.domain.group.ExerciseGroup;
+import trainproject.healthtogether.domain.manytomany.UserGroup;
 import trainproject.healthtogether.domain.user.User;
 import trainproject.healthtogether.repository.ExerciseGroupRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,7 +26,6 @@ public class ExerciseGroupService {
     public void joinExerciseGroup(ExerciseGroup exerciseGroup, User user) {
 
         exerciseGroup.joinExerciseGroup(user);
-        exerciseGroupRepository.save(exerciseGroup);
     }
 
     public List<ExerciseGroup> findAll() {
@@ -33,5 +34,26 @@ public class ExerciseGroupService {
 
     public ExerciseGroup findOne(Long id) {
         return exerciseGroupRepository.getById(id);
+    }
+
+    public List<User> findMemberList(ExerciseGroup exerciseGroup) {
+
+        List<User> memberList = new ArrayList<>();
+
+        for (UserGroup userGroup : exerciseGroup.getUserGroupList()) {
+            memberList.add(userGroup.getUser());
+        }
+
+        return memberList;
+    }
+
+    public Long getGroupAttendanceRate(ExerciseGroup exerciseGroup) {
+
+        return exerciseGroup.groupAttendRate();
+    }
+
+    public Integer getMemberAttendanceRate(ExerciseGroup exerciseGroup, User user) {
+
+        return exerciseGroup.memberAttendRate(user);
     }
 }

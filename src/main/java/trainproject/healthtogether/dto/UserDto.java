@@ -25,6 +25,20 @@ public class UserDto {
 
     }
 
+    /*
+    * Attend 데이터를 넘겨줄 때 사용할 최소한의 User 정보
+     */
+    public UserDto(Long id, String name, String email, String picture, String nickname) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.picture = picture;
+        this.nickname = nickname;
+    }
+
+    /*
+    * User 정보 데이터를 넘겨줄 때
+     */
     public UserDto(Long id, String name, String email, String picture, String nickname, Friend friendList, List<UserGroup> exerciseGroupList) {
         this.id = id;
         this.name = name;

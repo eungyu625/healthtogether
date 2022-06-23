@@ -17,11 +17,17 @@ public class ExerciseGroupDto {
 
     private String intro;
 
-    private int routineTime;
+    private Long time;
 
     private LocalDate startDate;
 
     private String targetDay;
+
+    private String video_name;
+
+    private String video_url;
+
+    private Long groupAttendanceRate;
 
     private List<UserDto> memberList;
 
@@ -29,17 +35,8 @@ public class ExerciseGroupDto {
 
     }
 
-    public ExerciseGroupDto(Long id, String exerciseGroupName, String intro, int routineTime, LocalDate startDate, String targetDay, List<UserGroup> userGroupList) {
-        this.id = id;
-        this.exerciseGroupName = exerciseGroupName;
-        this.intro = intro;
-        this.routineTime = routineTime;
-        this.startDate = startDate;
-        this.targetDay = targetDay;
+    public ExerciseGroupDto(Long id, String exerciseGroupName, String intro, Long time, LocalDate startDate, String targetDay, String video_name, String video_url,
+                            Long groupAttendanceRate, List<UserGroup> userGroupList) {
 
-        for (UserGroup userGroup : userGroupList) {
-            this.memberList.add(new UserDto(userGroup.getUser().getId(), userGroup.getUser().getName(), userGroup.getUser().getEmail(), userGroup.getUser().getPicture(),
-                    userGroup.getUser().getNickName(), userGroup.getUser().getFriendList(), userGroup.getUser().getUserGroupList()));
-        }
     }
 }

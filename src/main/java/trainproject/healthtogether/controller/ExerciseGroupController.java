@@ -1,18 +1,16 @@
 package trainproject.healthtogether.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import trainproject.healthtogether.domain.group.ExerciseGroup;
+import trainproject.healthtogether.domain.user.User;
 import trainproject.healthtogether.dto.AttendDto;
 import trainproject.healthtogether.dto.ExerciseGroupDto;
 import trainproject.healthtogether.repository.apirepository.ExerciseGroupApiRepository;
 import trainproject.healthtogether.service.ExerciseGroupService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,13 +26,30 @@ public class ExerciseGroupController {
     }
 
     @GetMapping("/groupList")
-    public void showExerciseGroupList() {
+    public List<ExerciseGroupDto> showExerciseGroupListByUser(@AuthenticationPrincipal User user) {
 
+        return exerciseGroupApiRepository.findExerciseGroupListByUser(user);
     }
 
+    /*
     @PostMapping("/createGroup")
-    public void createExerciseGroup() {
+    public List<ExerciseGroupDto> createExerciseGroup(@RequestParam("exerciseName") String exerciseName, @RequestParam("intro") String intro,
+                                    @RequestParam("targetDay") String targetDay, @RequestParam("routineTime") int routineTime, @AuthenticationPrincipal User user) {
 
+        ExerciseGroup exerciseGroup = new ExerciseGroup();
+        exerciseGroup.setExerciseGroup(exerciseName, intro, user, targetDay);
+        exerciseGroupService.setExerciseGroup(exerciseGroup);
+
+        return exerciseGroupApiRepository.findExerciseGroup(exerciseGroup.getId());
+    }
+     */
+
+    @PostMapping("/joinGroup/{exerciseGroupId}")
+    public List<ExerciseGroupDto> joinExerciseGroup(@PathVariable("exerciseGroupId") Long exerciseGroupId, @AuthenticationPrincipal User user) {
+
+        exerciseGroupService.joinExerciseGroup(exerciseGroupService.findOne(exerciseGroupId), user);
+
+        return exerciseGroupApiRepository.findExerciseGroup(exerciseGroupId);
     }
 
     @GetMapping("/attendanceBook/{exerciseGroupId}")

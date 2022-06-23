@@ -1,6 +1,8 @@
 package trainproject.healthtogether.domain.group;
 
 import lombok.Getter;
+import trainproject.healthtogether.domain.exercise.Exercise;
+import trainproject.healthtogether.domain.exercise.Record;
 import trainproject.healthtogether.domain.manytomany.UserGroup;
 import trainproject.healthtogether.domain.user.User;
 
@@ -24,11 +26,12 @@ public class ExerciseGroup {
 
     private String intro;
 
-    private int routineTime;
-
     private LocalDate startDate;
 
     private String targetDay;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Exercise exercise;
 
     @OneToMany(cascade = CascadeType.ALL)
     @MapKeyColumn(name = "user_id")
@@ -41,11 +44,11 @@ public class ExerciseGroup {
 
     }
 
-    public void setExerciseGroup(String exerciseGroupName, String intro, User chief, String targetDay, int routineTime) {
+    public void setExerciseGroup(String exerciseGroupName, String video_title, String video_url, String targetDay, Long count, String intro, User chief) {
         this.exerciseGroupName = exerciseGroupName;
+        this.exercise = new Exercise(count, 0L, video_title, video_url);
         this.intro = intro;
         this.targetDay = targetDay;
-        this.routineTime = routineTime;
         this.startDate = LocalDate.now();
         this.memberList.put(chief, new Attend());
     }
@@ -71,4 +74,5 @@ public class ExerciseGroup {
 
         return 100 * attendRate / memberList.size();
     }
+
 }

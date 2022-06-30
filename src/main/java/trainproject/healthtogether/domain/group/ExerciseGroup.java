@@ -2,7 +2,6 @@ package trainproject.healthtogether.domain.group;
 
 import lombok.Getter;
 import trainproject.healthtogether.domain.exercise.Exercise;
-import trainproject.healthtogether.domain.exercise.Record;
 import trainproject.healthtogether.domain.manytomany.UserGroup;
 import trainproject.healthtogether.domain.user.User;
 

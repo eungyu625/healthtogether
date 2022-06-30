@@ -37,6 +37,18 @@ public class ExerciseGroupDto {
 
     public ExerciseGroupDto(Long id, String exerciseGroupName, String intro, Long time, LocalDate startDate, String targetDay, String video_name, String video_url,
                             Long groupAttendanceRate, List<UserGroup> userGroupList) {
+        this.id = id;
+        this.exerciseGroupName = exerciseGroupName;
+        this.intro = intro;
+        this.time = time;
+        this.startDate = startDate;
+        this.targetDay = targetDay;
+        this.video_name = video_name;
+        this.video_url = video_url;
+        this.groupAttendanceRate = groupAttendanceRate;
 
+        for (UserGroup userGroup : userGroupList) {
+            memberList.add(new UserDto(userGroup.getUser().getId(), userGroup.getUser().getName(), userGroup.getUser().getEmail()));
+        }
     }
 }

@@ -3,12 +3,16 @@ package trainproject.healthtogether.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import trainproject.healthtogether.config.auth.LoginUser;
+import trainproject.healthtogether.config.auth.dto.SessionUser;
 import trainproject.healthtogether.domain.group.ExerciseGroup;
 import trainproject.healthtogether.domain.user.User;
 import trainproject.healthtogether.dto.AttendDto;
 import trainproject.healthtogether.dto.ExerciseGroupDto;
+import trainproject.healthtogether.repository.UserRepository;
 import trainproject.healthtogether.repository.apirepository.ExerciseGroupApiRepository;
 import trainproject.healthtogether.service.ExerciseGroupService;
+import trainproject.healthtogether.service.UserService;
 
 import java.util.List;
 
@@ -17,6 +21,7 @@ import java.util.List;
 public class ExerciseGroupController {
 
     private final ExerciseGroupService exerciseGroupService;
+    private final UserRepository userRepository;
     private final ExerciseGroupApiRepository exerciseGroupApiRepository;
 
     @GetMapping("/groupMain")
@@ -45,9 +50,9 @@ public class ExerciseGroupController {
      */
 
     @PostMapping("/joinGroup/{exerciseGroupId}")
-    public List<ExerciseGroupDto> joinExerciseGroup(@PathVariable("exerciseGroupId") Long exerciseGroupId, @AuthenticationPrincipal User user) {
+    public List<ExerciseGroupDto> joinExerciseGroup(@PathVariable("exerciseGroupId") Long exerciseGroupId) {
 
-        exerciseGroupService.joinExerciseGroup(exerciseGroupService.findOne(exerciseGroupId), user);
+        // exerciseGroupService.joinExerciseGroup(exerciseGroupService.findOne(exerciseGroupId), user);
 
         return exerciseGroupApiRepository.findExerciseGroup(exerciseGroupId);
     }

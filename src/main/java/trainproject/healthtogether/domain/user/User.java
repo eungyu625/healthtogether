@@ -4,8 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.transaction.annotation.Transactional;
 import trainproject.healthtogether.BaseTimeEntity;
-import trainproject.healthtogether.domain.exercise.Record;
-import trainproject.healthtogether.domain.group.ExerciseGroup;
 import trainproject.healthtogether.domain.manytomany.UserGroup;
 import trainproject.healthtogether.dto.UserForm;
 
@@ -30,12 +28,6 @@ public class User extends BaseTimeEntity {
     @Column
     private String email;
 
-    @Column
-    private String picture;
-
-    @Column
-    private String nickName;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "friend_id")
     private Friend friendList;
@@ -46,23 +38,18 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
-    private List<Record> records = new ArrayList<>();
-
     @Builder
-    public User(String name, String email, String picture, Role role) {
+    public User(String name, String email, Role role) {
         this.name = name;
         this.email = email;
-        this.picture = picture;
         this.role = role;
     }
 
     protected User() {
     }
 
-    public User update(String name, String picture){
+    public User update(String name){
         this.name =name;
-        this.picture = picture;
         return this;
     }
 
@@ -75,7 +62,6 @@ public class User extends BaseTimeEntity {
         if(!userForm.getEmail().isEmpty())
             this.role=Role.USER;  //정식 승인
         this.email = userForm.getEmail();
-        this.nickName = userForm.getNickName();
         return this;
     }
 

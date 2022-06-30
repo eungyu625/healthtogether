@@ -16,10 +16,6 @@ public class Exercise {
     @Column(name = "exercise_id")
     private Long id;
 
-    @OneToMany(mappedBy = "exercise")
-    private List<Record> records = new ArrayList<>();
-
-    private String name; // 운동 이름
     private Long count; // 운동 횟수
     private Long time;  // 소요 시간
     private String video_title; // 영상 제목

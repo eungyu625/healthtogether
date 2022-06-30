@@ -23,7 +23,7 @@ public class UserApiRepository {
         List<UserDto> result = new ArrayList<>();
 
         for (UserGroup userGroup : exerciseGroup.getUserGroupList()) {
-            result.add(new UserDto(userGroup.getUser().getId(), userGroup.getUser().getName(), userGroup.getUser().getEmail(), userGroup.getUser().getPicture(), userGroup.getUser().getNickName(),
+            result.add(new UserDto(userGroup.getUser().getId(), userGroup.getUser().getName(), userGroup.getUser().getEmail(),
                     userGroup.getUser().getFriendList(), userGroup.getUser().getUserGroupList()));
         }
 
@@ -35,7 +35,7 @@ public class UserApiRepository {
         List<FriendDto> result = new ArrayList<>();
 
         for (User friend : user.getFriendList().findAll()) {
-            result.add(new FriendDto(friend.getId(), friend.getName(), friend.getEmail(), friend.getPicture(), friend.getNickName()));
+            result.add(new FriendDto(friend.getId(), friend.getName(), friend.getEmail()));
         }
 
         return result;

@@ -16,21 +16,6 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public void addFriends(User user, User friend) {
-
-        user.addFriends(friend);
-    }
-
-    public void removeFriends(User user, User friend) {
-
-        user.removeFriends(friend);
-    }
-
-    public List<User> findFriends(User user) {
-
-        return user.findFriendsAll();
-    }
-
     public List<ExerciseGroup> findExerciseGroupList(User user) {
 
         List<ExerciseGroup> exerciseGroupList = new ArrayList<>();

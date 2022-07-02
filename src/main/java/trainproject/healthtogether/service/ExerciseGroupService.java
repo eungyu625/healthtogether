@@ -28,6 +28,16 @@ public class ExerciseGroupService {
         exerciseGroup.joinExerciseGroup(user);
     }
 
+    public void removeExerciseGroup(ExerciseGroup exerciseGroup) {
+
+        exerciseGroupRepository.delete(exerciseGroup);
+    }
+
+    public void withdrawalMember(ExerciseGroup exerciseGroup, User user) {
+
+
+    }
+
     public List<ExerciseGroup> findAll() {
         return exerciseGroupRepository.findAll();
     }

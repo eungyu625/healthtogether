@@ -28,10 +28,6 @@ public class User extends BaseTimeEntity {
     @Column
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "friend_id")
-    private Friend friendList;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserGroup> userGroupList = new ArrayList<>();
 
@@ -63,25 +59,5 @@ public class User extends BaseTimeEntity {
             this.role=Role.USER;  //정식 승인
         this.email = userForm.getEmail();
         return this;
-    }
-
-    public void addFriends(User user) {
-        friendList.add(user);
-    }
-
-    public void removeFriends(User user) {
-        friendList.remove(user);
-    }
-
-    public User findFriend(User user) {
-        if (friendList.findOne(user) == null) {
-            return null;
-        }
-
-        return user;
-    }
-
-    public List<User> findFriendsAll() {
-        return friendList.findAll();
     }
 }

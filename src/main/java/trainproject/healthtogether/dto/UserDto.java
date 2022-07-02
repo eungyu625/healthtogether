@@ -1,7 +1,6 @@
 package trainproject.healthtogether.dto;
 
 import trainproject.healthtogether.domain.manytomany.UserGroup;
-import trainproject.healthtogether.domain.user.Friend;
 
 import java.util.List;
 
@@ -12,8 +11,6 @@ public class UserDto {
     private String name;
 
     private String email;
-
-    private Friend friendList;
 
     private List<ExerciseGroupDto> exerciseGroupDtoList;
 
@@ -33,11 +30,10 @@ public class UserDto {
     /*
     * User 정보 데이터를 넘겨줄 때
      */
-    public UserDto(Long id, String name, String email, Friend friendList, List<UserGroup> exerciseGroupList) {
+    public UserDto(Long id, String name, String email, List<UserGroup> exerciseGroupList) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.friendList = friendList;
 
         /*
         for (UserGroup userGroup : exerciseGroupList) {

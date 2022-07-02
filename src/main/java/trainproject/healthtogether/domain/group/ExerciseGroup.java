@@ -74,4 +74,8 @@ public class ExerciseGroup {
         return 100 * attendRate / memberList.size();
     }
 
+    public void withdrawalMember(User user) {
+
+        memberList.remove(user);
+    }
 }

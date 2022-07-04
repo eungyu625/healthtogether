@@ -29,6 +29,9 @@ public class ExerciseGroup {
 
     private String targetDay;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private User chief;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Exercise exercise;
 
@@ -49,6 +52,7 @@ public class ExerciseGroup {
         this.intro = intro;
         this.targetDay = targetDay;
         this.startDate = LocalDate.now();
+        this.chief = chief;
         this.memberList.put(chief, new Attend());
     }
 

@@ -35,7 +35,7 @@ public class ExerciseGroupService {
 
     public void withdrawalMember(ExerciseGroup exerciseGroup, User user) {
 
-
+        exerciseGroup.withdrawalMember(user);
     }
 
     public List<ExerciseGroup> findAll() {

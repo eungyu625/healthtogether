@@ -21,7 +21,6 @@ import java.util.List;
 public class ExerciseGroupController {
 
     private final ExerciseGroupService exerciseGroupService;
-    private final UserRepository userRepository;
     private final ExerciseGroupApiRepository exerciseGroupApiRepository;
 
     @GetMapping("/groupMain")
@@ -36,23 +35,29 @@ public class ExerciseGroupController {
         return exerciseGroupApiRepository.findExerciseGroupListByUser(user);
     }
 
-    /*
+    @GetMapping("/groupList/{exerciseGroupId}")
+    public List<ExerciseGroupDto> showExerciseGroup(@PathVariable("exerciseGroupId") Long exerciseGroupId) {
+
+        return exerciseGroupApiRepository.findExerciseGroup(exerciseGroupId);
+    }
+
+
     @PostMapping("/createGroup")
-    public List<ExerciseGroupDto> createExerciseGroup(@RequestParam("exerciseName") String exerciseName, @RequestParam("intro") String intro,
-                                    @RequestParam("targetDay") String targetDay, @RequestParam("routineTime") int routineTime, @AuthenticationPrincipal User user) {
+    public List<ExerciseGroupDto> createExerciseGroup(@RequestParam("exerciseName") String exerciseName, @RequestParam("video_title") String video_title,
+                                                      @RequestParam("video_url") String video_url, @RequestParam("targetDay") String targetDay,
+                                                      @RequestParam("count") Long count, @RequestParam("intro") String intro, @AuthenticationPrincipal User user) {
 
         ExerciseGroup exerciseGroup = new ExerciseGroup();
-        exerciseGroup.setExerciseGroup(exerciseName, intro, user, targetDay);
+        exerciseGroup.setExerciseGroup(exerciseName, video_title, video_url, targetDay, count, intro, user);
         exerciseGroupService.setExerciseGroup(exerciseGroup);
 
         return exerciseGroupApiRepository.findExerciseGroup(exerciseGroup.getId());
     }
-     */
 
     @PostMapping("/joinGroup/{exerciseGroupId}")
-    public List<ExerciseGroupDto> joinExerciseGroup(@PathVariable("exerciseGroupId") Long exerciseGroupId) {
+    public List<ExerciseGroupDto> joinExerciseGroup(@PathVariable("exerciseGroupId") Long exerciseGroupId, @AuthenticationPrincipal User user) {
 
-        // exerciseGroupService.joinExerciseGroup(exerciseGroupService.findOne(exerciseGroupId), user);
+        exerciseGroupService.joinExerciseGroup(exerciseGroupService.findOne(exerciseGroupId), user);
 
         return exerciseGroupApiRepository.findExerciseGroup(exerciseGroupId);
     }
@@ -61,5 +66,20 @@ public class ExerciseGroupController {
     public List<AttendDto> showAttendance(@PathVariable("exerciseGroupId") Long exerciseGroupId) {
 
         return exerciseGroupApiRepository.findAttendByExerciseGroup(exerciseGroupService.findOne(exerciseGroupId));
+    }
+
+    @DeleteMapping("/removeGroup/{exerciseGroupId}")
+    public void removeExerciseGroup(@PathVariable("exerciseGroupId") Long exerciseGroupId, @AuthenticationPrincipal User user) {
+
+        if (user == exerciseGroupService.findOne(exerciseGroupId).getChief()) {
+
+            exerciseGroupService.removeExerciseGroup(exerciseGroupService.findOne(exerciseGroupId));
+        }
+    }
+
+    @DeleteMapping("/withdrawalGroup/{exerciseGroupId}")
+    public void withdrawalGroup(@PathVariable("exerciseGroupId") Long exerciseGroupId, @AuthenticationPrincipal User user) {
+
+        exerciseGroupService.withdrawalMember(exerciseGroupService.findOne(exerciseGroupId), user);
     }
 }

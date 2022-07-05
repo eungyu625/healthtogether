@@ -77,10 +77,7 @@ public class ExerciseGroupController {
     @DeleteMapping("/removeGroup/{exerciseGroupId}")
     public void removeExerciseGroup(@PathVariable("exerciseGroupId") Long exerciseGroupId, @AuthenticationPrincipal User user) {
 
-        if (user == exerciseGroupService.findOne(exerciseGroupId).getChief()) {
-
-            exerciseGroupService.removeExerciseGroup(exerciseGroupService.findOne(exerciseGroupId));
-        }
+        exerciseGroupService.removeExerciseGroup(exerciseGroupService.findOne(exerciseGroupId));
     }
 
     @DeleteMapping("/withdrawalGroup/{exerciseGroupId}")

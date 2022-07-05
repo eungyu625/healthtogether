@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import trainproject.healthtogether.domain.group.ExerciseGroup;
 import trainproject.healthtogether.domain.manytomany.UserGroup;
 import trainproject.healthtogether.domain.user.User;
+import trainproject.healthtogether.dto.UserModifyRequestDto;
 import trainproject.healthtogether.repository.UserRepository;
 
 import java.util.ArrayList;
@@ -25,5 +26,15 @@ public class UserService {
         }
 
         return exerciseGroupList;
+    }
+
+    public Long modifyUser(User user, UserModifyRequestDto dto) {
+
+        user.setNickName(dto.getNickName());
+        user.setPicture(dto.getPicture());
+
+        userRepository.saveAndFlush(user);
+
+        return 0L;
     }
 }

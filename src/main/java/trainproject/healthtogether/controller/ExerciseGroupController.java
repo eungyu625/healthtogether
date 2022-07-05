@@ -62,6 +62,12 @@ public class ExerciseGroupController {
         return exerciseGroupApiRepository.findExerciseGroup(exerciseGroupId);
     }
 
+    @PostMapping("/exerciseGroup/{exerciseGroupId}/attend")
+    public void attend(@PathVariable("exerciseGroupId") Long exerciseGroupId, @AuthenticationPrincipal User user) {
+
+        exerciseGroupService.findOne(exerciseGroupId).attend(user);
+    }
+
     @GetMapping("/attendanceBook/{exerciseGroupId}")
     public List<AttendDto> showAttendance(@PathVariable("exerciseGroupId") Long exerciseGroupId) {
 

@@ -1,7 +1,6 @@
 package trainproject.healthtogether.domain.group;
 
 import lombok.Getter;
-import trainproject.healthtogether.domain.exercise.Exercise;
 import trainproject.healthtogether.domain.manytomany.UserGroup;
 import trainproject.healthtogether.domain.user.User;
 
@@ -10,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Entity
@@ -29,15 +29,23 @@ public class ExerciseGroup {
 
     private String targetDay;
 
+    private String video_title;
+
+    private String video_url;
+
+    private Long count;
+
+    private Long groupAttendRate = 0L;
+
     @OneToOne(fetch = FetchType.LAZY)
     private User chief;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Exercise exercise;
-
     @OneToMany(cascade = CascadeType.ALL)
     @MapKeyColumn(name = "user_id")
-    private Map<User, Attend> memberList = new ConcurrentHashMap<>();
+    private Map<User, Attend> attendList = new ConcurrentHashMap<>();
+
+    @OneToMany(mappedBy = "exerciseGroup")
+    private List<User> memberList = new ArrayList<>();
 
     @OneToMany(mappedBy = "exerciseGroup")
     private List<UserGroup> userGroupList = new ArrayList<>();
@@ -48,38 +56,45 @@ public class ExerciseGroup {
 
     public void setExerciseGroup(String exerciseGroupName, String video_title, String video_url, String targetDay, Long count, String intro, User chief) {
         this.exerciseGroupName = exerciseGroupName;
-        this.exercise = new Exercise(count, 0L, video_title, video_url);
         this.intro = intro;
+        this.video_title = video_title;
+        this.video_url = video_url;
         this.targetDay = targetDay;
+        this.count = count;
         this.startDate = LocalDate.now();
         this.chief = chief;
-        this.memberList.put(chief, new Attend());
+        this.attendList.put(chief, new Attend());
+        this.memberList.add(chief);
     }
 
     public void joinExerciseGroup(User member) {
-        this.memberList.put(member, new Attend());
+
+        this.attendList.put(member, new Attend());
+        this.memberList.add(member);
     }
 
     public void attend(User user) {
-        memberList.get(user).attend();
+        attendList.get(user).attend();
     }
 
     public Integer memberAttendRate(User user) {
-        return memberList.get(user).attendanceRate();
+        return attendList.get(user).attendanceRate();
     }
 
-    public Long groupAttendRate() {
+    public void setGroupAttendRate() {
         long attendRate = 0;
 
-        for (User user : memberList.keySet()) {
-            attendRate += (long) memberList.get(user).attendanceRate();
+        for (User user : attendList.keySet()) {
+            attendRate += (long) attendList.get(user).attendanceRate();
         }
 
-        return 100 * attendRate / memberList.size();
+        groupAttendRate =  100 * attendRate / attendList.size();
     }
 
     public void withdrawalMember(User user) {
 
+        attendList.remove(user);
         memberList.remove(user);
     }
+
 }

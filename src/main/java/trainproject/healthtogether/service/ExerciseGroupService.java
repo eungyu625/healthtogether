@@ -59,7 +59,7 @@ public class ExerciseGroupService {
 
     public Long getGroupAttendanceRate(ExerciseGroup exerciseGroup) {
 
-        return exerciseGroup.groupAttendRate();
+        return exerciseGroup.getGroupAttendRate();
     }
 
     public Integer getMemberAttendanceRate(ExerciseGroup exerciseGroup, User user) {

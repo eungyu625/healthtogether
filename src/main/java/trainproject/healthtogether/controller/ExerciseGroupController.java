@@ -26,7 +26,7 @@ public class ExerciseGroupController {
     @GetMapping("/groupMain")
     public List<ExerciseGroupDto> showExerciseGroupInfo() {
 
-        return exerciseGroupApiRepository.findExerciseGroupList();
+        return exerciseGroupApiRepository.findExerciseGroupAll();
     }
 
     @GetMapping("/groupList")

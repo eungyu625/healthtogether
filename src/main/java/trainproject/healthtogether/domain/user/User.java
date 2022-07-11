@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import trainproject.healthtogether.BaseTimeEntity;
+import trainproject.healthtogether.domain.group.ExerciseGroup;
 import trainproject.healthtogether.domain.manytomany.UserGroup;
 import trainproject.healthtogether.dto.UserForm;
 
@@ -15,7 +16,7 @@ import java.util.List;
 
 
 @Getter @Setter
-@Entity @Builder
+@Entity
 @SequenceGenerator(name = "User_SEQ_GEN",sequenceName = "User_SEQ")
 public class User extends BaseTimeEntity {
 
@@ -39,10 +40,21 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserGroup> userGroupList = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ExerciseGroup exerciseGroup;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
     protected User() {
+    }
+
+    @Builder
+    public User(String name, String email, String picture, Role role) {
+        this.name = name;
+        this.email = email;
+        this.picture = picture;
+        this.role = role;
     }
 
     public User update(String name){

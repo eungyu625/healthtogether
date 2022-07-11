@@ -10,6 +10,7 @@ import trainproject.healthtogether.dto.AttendDto;
 import trainproject.healthtogether.dto.ExerciseGroupDto;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,14 +21,22 @@ public class ExerciseGroupApiRepository {
 
     private final EntityManager em;
 
-    public List<ExerciseGroupDto> findExerciseGroupList() {
+    public List<ExerciseGroupDto> findExerciseGroupAll() {
 
-        return null;
+        return em.createQuery("select new trainproject.healthtogether.dto.ExerciseGroupDto(e.id, e.exerciseGroupName, e.intro, e.count, e.startDate, e.targetDay, e.video_title, e.video_url," +
+                        "e.groupAttendRate)" +
+                " from ExerciseGroup e", ExerciseGroupDto.class)
+                .getResultList();
     }
 
     public List<ExerciseGroupDto> findExerciseGroup(Long exerciseGroupId) {
 
-        return null;
+        return em.createQuery("select new trainproject.healthtogether.dto.ExerciseGroupDto(e.id, e.exerciseGroupName, e.intro, e.count, e.startDate, e.targetDay, " +
+                "e.video_title, e.video_url, e.groupAttendRate)" +
+                " from ExerciseGroup e" +
+                " where e.id=:exerciseGroupId", ExerciseGroupDto.class)
+                .setParameter("exerciseGroupId", exerciseGroupId)
+                .getResultList();
     }
 
     public List<ExerciseGroupDto> findExerciseGroupListByUser(User user) {
@@ -53,7 +62,7 @@ public class ExerciseGroupApiRepository {
 
         List<AttendDto> attendList = new ArrayList<>();
 
-        for (Map.Entry<User, Attend> member : exerciseGroup.getMemberList().entrySet()) {
+        for (Map.Entry<User, Attend> member : exerciseGroup.getAttendList().entrySet()) {
             attendList.add(new AttendDto(member.getKey(), member.getValue().getJoinDate(), member.getValue().attendanceRate()));
         }
 

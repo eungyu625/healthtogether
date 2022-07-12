@@ -35,11 +35,6 @@ public class UserDto {
         this.name = name;
         this.email = email;
 
-        /*
-        for (UserGroup userGroup : exerciseGroupList) {
-            this.exerciseGroupDtoList.add(new ExerciseGroupDto(userGroup.getExerciseGroup().getId(), userGroup.getExerciseGroup().getExerciseGroupName(),
-                    userGroup.getExerciseGroup().getIntro(), userGroup.getExerciseGroup().getRoutineTime(), userGroup.getExerciseGroup().getStartDate(), userGroup.getExerciseGroup().getTargetDay(),
-                    userGroup.getExerciseGroup().getUserGroupList()));
-        }*/
+
     }
 }

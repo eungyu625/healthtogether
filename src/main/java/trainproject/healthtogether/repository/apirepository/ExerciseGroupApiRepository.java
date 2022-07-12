@@ -8,6 +8,7 @@ import trainproject.healthtogether.domain.manytomany.UserGroup;
 import trainproject.healthtogether.domain.user.User;
 import trainproject.healthtogether.dto.AttendDto;
 import trainproject.healthtogether.dto.ExerciseGroupDto;
+import trainproject.healthtogether.service.ExerciseGroupService;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -19,43 +20,42 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ExerciseGroupApiRepository {
 
-    private final EntityManager em;
+    private final ExerciseGroupService exerciseGroupService;
 
     public List<ExerciseGroupDto> findExerciseGroupAll() {
 
-        return em.createQuery("select new trainproject.healthtogether.dto.ExerciseGroupDto(e.id, e.exerciseGroupName, e.intro, e.count, e.startDate, e.targetDay, e.video_title, e.video_url," +
-                        "e.groupAttendRate)" +
-                " from ExerciseGroup e", ExerciseGroupDto.class)
-                .getResultList();
+        List<ExerciseGroupDto> exerciseGroupDtoList = new ArrayList<>();
+
+        for (ExerciseGroup exerciseGroup : exerciseGroupService.findAll()) {
+            exerciseGroupDtoList.add(new ExerciseGroupDto(exerciseGroup.getId(), exerciseGroup.getExerciseGroupName(), exerciseGroup.getIntro(), exerciseGroup.getCount(),
+                    exerciseGroup.getStartDate(), exerciseGroup.getTargetDay(), exerciseGroup.getVideo_title(), exerciseGroup.getVideo_url(), exerciseGroup.getGroupAttendRate(), exerciseGroup.getMemberList()));
+        }
+
+        return exerciseGroupDtoList;
     }
 
     public List<ExerciseGroupDto> findExerciseGroup(Long exerciseGroupId) {
 
-        return em.createQuery("select new trainproject.healthtogether.dto.ExerciseGroupDto(e.id, e.exerciseGroupName, e.intro, e.count, e.startDate, e.targetDay, " +
-                "e.video_title, e.video_url, e.groupAttendRate)" +
-                " from ExerciseGroup e" +
-                " where e.id=:exerciseGroupId", ExerciseGroupDto.class)
-                .setParameter("exerciseGroupId", exerciseGroupId)
-                .getResultList();
+        List<ExerciseGroupDto> exerciseGroupDtoList = new ArrayList<>();
+        ExerciseGroup exerciseGroup = exerciseGroupService.findOne(exerciseGroupId);
+        exerciseGroupDtoList.add(new ExerciseGroupDto(exerciseGroup.getId(), exerciseGroup.getExerciseGroupName(), exerciseGroup.getIntro(), exerciseGroup.getCount(),
+                exerciseGroup.getStartDate(), exerciseGroup.getTargetDay(), exerciseGroup.getVideo_title(), exerciseGroup.getVideo_url(), exerciseGroup.getGroupAttendRate(), exerciseGroup.getMemberList()));
+
+        return exerciseGroupDtoList;
     }
 
     public List<ExerciseGroupDto> findExerciseGroupListByUser(User user) {
 
-        List<ExerciseGroup> exerciseGroupList = new ArrayList<>();
+        List<ExerciseGroupDto> exerciseGroupDtoList = new ArrayList<>();
 
         for (UserGroup userGroup : user.getUserGroupList()) {
 
-            exerciseGroupList.add(userGroup.getExerciseGroup());
+            ExerciseGroup exerciseGroup = userGroup.getExerciseGroup();
+            exerciseGroupDtoList.add(new ExerciseGroupDto(exerciseGroup.getId(), exerciseGroup.getExerciseGroupName(), exerciseGroup.getIntro(), exerciseGroup.getCount(),
+                    exerciseGroup.getStartDate(), exerciseGroup.getTargetDay(), exerciseGroup.getVideo_title(), exerciseGroup.getVideo_url(), exerciseGroup.getGroupAttendRate(), exerciseGroup.getMemberList()));
         }
 
-
-        List<ExerciseGroupDto> result = new ArrayList<>();
-
-        for (ExerciseGroup exerciseGroup : exerciseGroupList) {
-            //result.add(new ExerciseGroupDto(exerciseGroup.getId(), exerciseGroup.getExerciseGroupName(), exerciseGroup.getIntro(), exerciseGroup.getRoutineTime(), exerciseGroup.getStartDate(), exerciseGroup.getTargetDay(), exerciseGroup.getUserGroupList()));
-        }
-
-        return result;
+        return exerciseGroupDtoList;
     }
 
     public List<AttendDto> findAttendByExerciseGroup(ExerciseGroup exerciseGroup) {

@@ -37,7 +37,7 @@ public class ExerciseGroup {
 
     private Long groupAttendRate = 0L;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User chief;
 
     @OneToMany(cascade = CascadeType.ALL)

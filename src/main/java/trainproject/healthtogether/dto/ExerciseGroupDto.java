@@ -9,6 +9,7 @@ import trainproject.healthtogether.service.ExerciseGroupService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -32,14 +33,14 @@ public class ExerciseGroupDto {
 
     private Long groupAttendanceRate;
 
-    private List<UserDto> memberList;
+    private List<UserDto> memberList = new ArrayList<>();
 
     protected ExerciseGroupDto() {
 
     }
 
     public ExerciseGroupDto(Long id, String exerciseGroupName, String intro, Long count, LocalDate startDate, String targetDay, String video_title, String video_url,
-                            Long groupAttendanceRate) {
+                            Long groupAttendanceRate, List<User> memberList) {
         this.id = id;
         this.exerciseGroupName = exerciseGroupName;
         this.intro = intro;
@@ -49,5 +50,10 @@ public class ExerciseGroupDto {
         this.video_title = video_title;
         this.video_url = video_url;
         this.groupAttendanceRate = groupAttendanceRate;
+
+        for (User member : memberList) {
+            this.memberList.add(new UserDto(member.getId(), member.getName(), member.getEmail()));
+        }
     }
+
 }

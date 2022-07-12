@@ -43,7 +43,9 @@ public class ExerciseGroupServiceTest {
 
         ExerciseGroup exerciseGroup = new ExerciseGroup();
         exerciseGroup.setExerciseGroup("exerciseGroup", "video_title", "video_url", "Friday", 0L, "intro", user);
-        System.out.println(exerciseGroupApiRepository.findExerciseGroupAll());
+        exerciseGroupService.setExerciseGroup(exerciseGroup);
+
+        assertThat(exerciseGroup.getExerciseGroupName()).isEqualTo(exerciseGroupApiRepository.findExerciseGroup(1L).get(0).getExerciseGroupName());
     }
 
     @Test
@@ -57,6 +59,7 @@ public class ExerciseGroupServiceTest {
 
         ExerciseGroup exerciseGroup = new ExerciseGroup();
         exerciseGroup.setExerciseGroup("exerciseGroup", "video_title", "video_url", "Friday", 0L, "intro", user);
+        exerciseGroupService.setExerciseGroup(exerciseGroup);
 
         User member = User.builder()
                 .email("abc")
@@ -65,6 +68,11 @@ public class ExerciseGroupServiceTest {
                 .role(Role.USER)
                 .build();
 
+        ExerciseGroup findGroup = exerciseGroupService.findOne(exerciseGroup.getId());
+        exerciseGroupService.joinExerciseGroup(findGroup, member);
 
+        for (User mem : exerciseGroup.getMemberList()) {
+            System.out.println("name : " + mem.getName());
+        }
     }
 }

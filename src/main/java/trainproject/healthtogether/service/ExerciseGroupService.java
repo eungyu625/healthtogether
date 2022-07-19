@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import trainproject.healthtogether.domain.group.ExerciseGroup;
-import trainproject.healthtogether.domain.manytomany.UserGroup;
+import trainproject.healthtogether.domain.manytomany.UserExerciseGroup;
 import trainproject.healthtogether.domain.user.User;
 import trainproject.healthtogether.repository.ExerciseGroupRepository;
 
@@ -26,20 +26,40 @@ public class ExerciseGroupService {
     public void joinExerciseGroup(ExerciseGroup exerciseGroup, User user) {
 
         exerciseGroup.joinExerciseGroup(user);
+        exerciseGroupRepository.save(exerciseGroup);
     }
 
     public void removeExerciseGroup(ExerciseGroup exerciseGroup) {
 
+        for (UserExerciseGroup userExerciseGroup : exerciseGroup.getUserExerciseGroupList()) {
+            userExerciseGroup.getUser().removeUserExerciseGroupList(exerciseGroup);
+        }
         exerciseGroupRepository.delete(exerciseGroup);
     }
 
     public void withdrawalMember(ExerciseGroup exerciseGroup, User user) {
 
         exerciseGroup.withdrawalMember(user);
+        exerciseGroupRepository.save(exerciseGroup);
+    }
+
+    public void attend(ExerciseGroup exerciseGroup, User user) {
+        exerciseGroup.attend(user);
+        exerciseGroupRepository.save(exerciseGroup);
     }
 
     public List<ExerciseGroup> findAll() {
         return exerciseGroupRepository.findAll();
+    }
+
+    public List<ExerciseGroup> findExerciseGroupByUser(User user) {
+        List<ExerciseGroup> exerciseGroupList = new ArrayList<>();
+
+        for (UserExerciseGroup userExerciseGroup : user.getUserExerciseGroupList()) {
+            exerciseGroupList.add(userExerciseGroup.getExerciseGroup());
+        }
+
+        return exerciseGroupList;
     }
 
     public ExerciseGroup findOne(Long id) {
@@ -50,8 +70,8 @@ public class ExerciseGroupService {
 
         List<User> memberList = new ArrayList<>();
 
-        for (UserGroup userGroup : exerciseGroup.getUserGroupList()) {
-            memberList.add(userGroup.getUser());
+        for (UserExerciseGroup userExerciseGroup : exerciseGroup.getUserExerciseGroupList()) {
+            memberList.add(userExerciseGroup.getUser());
         }
 
         return memberList;

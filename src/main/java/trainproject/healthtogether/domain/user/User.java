@@ -3,11 +3,10 @@ package trainproject.healthtogether.domain.user;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import trainproject.healthtogether.BaseTimeEntity;
 import trainproject.healthtogether.domain.group.ExerciseGroup;
-import trainproject.healthtogether.domain.manytomany.UserGroup;
+import trainproject.healthtogether.domain.manytomany.UserExerciseGroup;
 import trainproject.healthtogether.dto.UserForm;
 
 import javax.persistence.*;
@@ -37,8 +36,8 @@ public class User extends BaseTimeEntity {
     @Column
     private String nickName;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserGroup> userGroupList = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserExerciseGroup> userExerciseGroupList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     private ExerciseGroup exerciseGroup;
@@ -72,5 +71,23 @@ public class User extends BaseTimeEntity {
             this.role=Role.USER;  //정식 승인
         this.email = userForm.getEmail();
         return this;
+    }
+
+    public void addUserExerciseGroupList(ExerciseGroup exerciseGroup) {
+        userExerciseGroupList.add(new UserExerciseGroup(this, exerciseGroup));
+    }
+
+    public void removeUserExerciseGroupList(ExerciseGroup exerciseGroup) {
+        int index = 0;
+
+        for (UserExerciseGroup userExerciseGroup : userExerciseGroupList) {
+            if (userExerciseGroup.getExerciseGroup() == exerciseGroup) {
+                break;
+            } else {
+                index += 1;
+            }
+        }
+
+        userExerciseGroupList.remove(index);
     }
 }

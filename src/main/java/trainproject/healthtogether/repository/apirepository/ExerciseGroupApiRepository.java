@@ -4,14 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import trainproject.healthtogether.domain.group.Attend;
 import trainproject.healthtogether.domain.group.ExerciseGroup;
-import trainproject.healthtogether.domain.manytomany.UserGroup;
+import trainproject.healthtogether.domain.manytomany.UserExerciseGroup;
 import trainproject.healthtogether.domain.user.User;
 import trainproject.healthtogether.dto.AttendDto;
 import trainproject.healthtogether.dto.ExerciseGroupDto;
 import trainproject.healthtogether.service.ExerciseGroupService;
 
-import javax.persistence.EntityManager;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,9 +46,9 @@ public class ExerciseGroupApiRepository {
 
         List<ExerciseGroupDto> exerciseGroupDtoList = new ArrayList<>();
 
-        for (UserGroup userGroup : user.getUserGroupList()) {
+        for (UserExerciseGroup userExerciseGroup : user.getUserExerciseGroupList()) {
 
-            ExerciseGroup exerciseGroup = userGroup.getExerciseGroup();
+            ExerciseGroup exerciseGroup = userExerciseGroup.getExerciseGroup();
             exerciseGroupDtoList.add(new ExerciseGroupDto(exerciseGroup.getId(), exerciseGroup.getExerciseGroupName(), exerciseGroup.getIntro(), exerciseGroup.getCount(),
                     exerciseGroup.getStartDate(), exerciseGroup.getTargetDay(), exerciseGroup.getVideo_title(), exerciseGroup.getVideo_url(), exerciseGroup.getGroupAttendRate(), exerciseGroup.getMemberList()));
         }

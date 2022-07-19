@@ -65,7 +65,7 @@ public class ExerciseGroupController {
     @PostMapping("/exerciseGroup/{exerciseGroupId}/attend")
     public void attend(@PathVariable("exerciseGroupId") Long exerciseGroupId, @AuthenticationPrincipal User user) {
 
-        exerciseGroupService.findOne(exerciseGroupId).attend(user);
+        exerciseGroupService.attend(exerciseGroupService.findOne(exerciseGroupId), user);
     }
 
     @GetMapping("/attendanceBook/{exerciseGroupId}")

@@ -3,7 +3,7 @@ package trainproject.healthtogether.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import trainproject.healthtogether.domain.group.ExerciseGroup;
-import trainproject.healthtogether.domain.manytomany.UserGroup;
+import trainproject.healthtogether.domain.manytomany.UserExerciseGroup;
 import trainproject.healthtogether.domain.user.User;
 import trainproject.healthtogether.dto.UserModifyRequestDto;
 import trainproject.healthtogether.repository.UserRepository;
@@ -21,8 +21,8 @@ public class UserService {
 
         List<ExerciseGroup> exerciseGroupList = new ArrayList<>();
 
-        for (UserGroup userGroup : user.getUserGroupList()) {
-            exerciseGroupList.add(userGroup.getExerciseGroup());
+        for (UserExerciseGroup userExerciseGroup : user.getUserExerciseGroupList()) {
+            exerciseGroupList.add(userExerciseGroup.getExerciseGroup());
         }
 
         return exerciseGroupList;

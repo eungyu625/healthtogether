@@ -1,15 +1,10 @@
 package trainproject.healthtogether.dto;
 
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
-import trainproject.healthtogether.domain.group.ExerciseGroup;
-import trainproject.healthtogether.domain.manytomany.UserGroup;
 import trainproject.healthtogether.domain.user.User;
-import trainproject.healthtogether.service.ExerciseGroupService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Getter

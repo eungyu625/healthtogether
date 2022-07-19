@@ -1,7 +1,7 @@
 package trainproject.healthtogether.domain.group;
 
 import lombok.Getter;
-import trainproject.healthtogether.domain.manytomany.UserGroup;
+import trainproject.healthtogether.domain.manytomany.UserExerciseGroup;
 import trainproject.healthtogether.domain.user.User;
 
 import javax.persistence.*;
@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Entity
@@ -44,11 +43,11 @@ public class ExerciseGroup {
     @MapKeyColumn(name = "user_id")
     private Map<User, Attend> attendList = new ConcurrentHashMap<>();
 
-    @OneToMany(mappedBy = "exerciseGroup")
+    @OneToMany(mappedBy = "exerciseGroup", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> memberList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "exerciseGroup")
-    private List<UserGroup> userGroupList = new ArrayList<>();
+    @OneToMany(mappedBy = "exerciseGroup", cascade = CascadeType.ALL)
+    private List<UserExerciseGroup> userExerciseGroupList = new ArrayList<>();
 
     public ExerciseGroup() {
 
@@ -65,12 +64,16 @@ public class ExerciseGroup {
         this.chief = chief;
         this.attendList.put(chief, new Attend());
         this.memberList.add(chief);
+        this.userExerciseGroupList.add(new UserExerciseGroup(chief, this));
+        chief.addUserExerciseGroupList(this);
     }
 
     public void joinExerciseGroup(User member) {
 
         this.attendList.put(member, new Attend());
         this.memberList.add(member);
+        this.userExerciseGroupList.add(new UserExerciseGroup(member, this));
+        member.addUserExerciseGroupList(this);
     }
 
     public void attend(User user) {
@@ -93,8 +96,19 @@ public class ExerciseGroup {
 
     public void withdrawalMember(User user) {
 
+        int index = 0;
         attendList.remove(user);
         memberList.remove(user);
+        for (UserExerciseGroup userExerciseGroup : userExerciseGroupList) {
+            if (userExerciseGroup.getUser() == user) {
+                break;
+            } else {
+                index += 1;
+            }
+        }
+
+        userExerciseGroupList.remove(index);
+        user.removeUserExerciseGroupList(this);
     }
 
 }

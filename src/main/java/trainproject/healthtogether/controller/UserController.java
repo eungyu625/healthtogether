@@ -1,17 +1,11 @@
 package trainproject.healthtogether.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import trainproject.healthtogether.domain.manytomany.UserGroup;
 import trainproject.healthtogether.domain.user.User;
 import trainproject.healthtogether.dto.UserModifyRequestDto;
-import trainproject.healthtogether.repository.apirepository.ExerciseGroupApiRepository;
-import trainproject.healthtogether.repository.apirepository.UserApiRepository;
-import trainproject.healthtogether.service.ExerciseGroupService;
-import trainproject.healthtogether.service.UserGroupService;
 import trainproject.healthtogether.service.UserService;
 
 @RestController
@@ -19,7 +13,6 @@ import trainproject.healthtogether.service.UserService;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserGroupService userGroupService;
     private final UserService userService;
 
     @PutMapping

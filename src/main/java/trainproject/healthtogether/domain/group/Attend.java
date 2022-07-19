@@ -29,7 +29,7 @@ public class Attend {
     }
 
     public Integer attendanceRate() {
-        long workDays = ChronoUnit.DAYS.between(joinDate, LocalDate.now());
-        return 100 * attendanceDays / (int) workDays;
+        Integer workDays = Long.valueOf(ChronoUnit.DAYS.between(joinDate, LocalDate.now())).intValue() + 1;
+        return 100 * attendanceDays / workDays;
     }
 }

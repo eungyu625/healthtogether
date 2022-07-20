@@ -100,7 +100,7 @@ public class ExerciseGroup {
         attendList.remove(user);
         memberList.remove(user);
         for (UserExerciseGroup userExerciseGroup : userExerciseGroupList) {
-            if (userExerciseGroup.getUser() == user) {
+            if (userExerciseGroup.getUser().getEmail().equals(user.getEmail())) {
                 break;
             } else {
                 index += 1;

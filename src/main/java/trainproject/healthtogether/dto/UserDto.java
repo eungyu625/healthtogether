@@ -1,9 +1,11 @@
 package trainproject.healthtogether.dto;
 
+import lombok.Getter;
 import trainproject.healthtogether.domain.manytomany.UserExerciseGroup;
 
 import java.util.List;
 
+@Getter
 public class UserDto {
 
     private Long id;

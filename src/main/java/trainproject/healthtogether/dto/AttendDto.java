@@ -1,9 +1,11 @@
 package trainproject.healthtogether.dto;
 
+import lombok.Getter;
 import trainproject.healthtogether.domain.user.User;
 
 import java.time.LocalDate;
 
+@Getter
 public class AttendDto {
 
     private Long userId;

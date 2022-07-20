@@ -7,8 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import trainproject.healthtogether.domain.group.ExerciseGroup;
 import trainproject.healthtogether.domain.user.Role;
 import trainproject.healthtogether.domain.user.User;
+import trainproject.healthtogether.dto.AttendDto;
 import trainproject.healthtogether.dto.ExerciseGroupDto;
+import trainproject.healthtogether.dto.UserDto;
 import trainproject.healthtogether.repository.apirepository.ExerciseGroupApiRepository;
+import trainproject.healthtogether.repository.apirepository.UserApiRepository;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -21,6 +24,9 @@ public class ExerciseGroupServiceTest {
 
     @Autowired
     private ExerciseGroupApiRepository exerciseGroupApiRepository;
+
+    @Autowired
+    private UserApiRepository userApiRepository;
 
 
     @Test
@@ -36,6 +42,7 @@ public class ExerciseGroupServiceTest {
         exerciseGroup.setExerciseGroup("exerciseGroup", "video_title", "video_url", "Friday", 0L, "intro", user);
         exerciseGroupService.setExerciseGroup(exerciseGroup);
 
+        System.out.println(exerciseGroupService.findOne(exerciseGroup.getId()).getId());
         assertThat(exerciseGroup.getExerciseGroupName()).isEqualTo(exerciseGroupApiRepository.findExerciseGroup(1L).get(0).getExerciseGroupName());
     }
 
@@ -130,6 +137,9 @@ public class ExerciseGroupServiceTest {
         for (ExerciseGroupDto exerciseGroupDto : exerciseGroupApiRepository.findExerciseGroupListByUser(member)) {
             System.out.println("name : " + exerciseGroupDto.getExerciseGroupName());
         }
+        for (UserDto userDto : userApiRepository.findMemberList(exerciseGroupService.findOne(exerciseGroup2.getId()))) {
+            System.out.println("name : " + userDto.getName());
+        }
         exerciseGroupService.withdrawalMember(findGroup1, member);
         System.out.println("-- AFTER --");
         for (ExerciseGroupDto exerciseGroupDto : exerciseGroupApiRepository.findExerciseGroupListByUser(member)) {
@@ -177,10 +187,20 @@ public class ExerciseGroupServiceTest {
         exerciseGroup.setExerciseGroup("exerciseGroup", "video_title", "video_url", "Friday", 0L, "intro", user);
         exerciseGroupService.setExerciseGroup(exerciseGroup);
 
+        User member = User.builder()
+                .email("email")
+                .name("member")
+                .picture("picture")
+                .role(Role.USER)
+                .build();
+        exerciseGroupService.joinExerciseGroup(exerciseGroup, member);
+
         ExerciseGroup findGroup = exerciseGroupService.findOne(exerciseGroup.getId());
         System.out.println(findGroup.memberAttendRate(user));
         System.out.println("-- AFTER --");
         exerciseGroupService.attend(findGroup, user);
-        System.out.println(exerciseGroupService.findOne(findGroup.getId()).memberAttendRate(user));
+        for (AttendDto attendDto : exerciseGroupApiRepository.findAttendByExerciseGroup(findGroup)) {
+            System.out.println("name : " + attendDto.getUserName() + ", " + attendDto.getAttendanceRate());
+        }
     }
 }
